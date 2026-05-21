@@ -298,7 +298,7 @@ float4 PS(PS_INPUT input) : SV_Target
                 FillMode = FillMode.Solid,
                 CullMode = CullMode.Back,
                 IsFrontCounterClockwise = false,
-                DepthClipEnable = true
+                IsDepthClipEnabled = true
             });
 
             var depthState = new DepthStencilState(device, new DepthStencilStateDescription

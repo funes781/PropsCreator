@@ -17,8 +17,5 @@
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\CodeWalker\CodeWalker.Core\CodeWalker.Core.csproj" />
-  </ItemGroup>
 
 </Project>
