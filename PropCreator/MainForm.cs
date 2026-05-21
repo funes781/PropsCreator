@@ -2,6 +2,7 @@ using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PropCreator
@@ -17,7 +18,7 @@ namespace PropCreator
             Text = "PropCreator";
         }
 
-        private void ImportMenuItem_Click(object sender, EventArgs e)
+        private async void ImportMenuItem_Click(object sender, EventArgs e)
         {
             using (var dialog = new OpenFileDialog())
             {
@@ -26,18 +27,21 @@ namespace PropCreator
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    LoadModel(dialog.FileName);
+                    await LoadModelAsync(dialog.FileName);
                 }
             }
         }
 
-        private void LoadModel(string filePath)
+        private async Task LoadModelAsync(string filePath)
         {
+            importMenuItem.Enabled = false;
+            progressBar.Visible = true;
+            UpdateStatus("Loading " + Path.GetFileName(filePath) + "...");
+
             try
             {
-                UpdateStatus("Loading " + Path.GetFileName(filePath) + "...");
+                var meshes = await Task.Run(() => FbxParser.Load(filePath));
 
-                var meshes = FbxParser.Load(filePath);
                 if (meshes.Count == 0)
                 {
                     MessageBox.Show("No mesh data found in FBX file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -47,12 +51,17 @@ namespace PropCreator
 
                 renderer?.LoadMeshes(meshes);
                 loaded = true;
-                UpdateStatus("Loaded: " + Path.GetFileName(filePath) + " (" + meshes.Count + " meshes)");
+                UpdateStatus("Loaded: " + Path.GetFileName(filePath));
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Failed to load model: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 UpdateStatus("Failed to load model");
+            }
+            finally
+            {
+                importMenuItem.Enabled = true;
+                progressBar.Visible = false;
             }
         }
 

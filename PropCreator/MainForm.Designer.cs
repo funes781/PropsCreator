@@ -9,6 +9,7 @@ namespace PropCreator
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        private System.Windows.Forms.ToolStripProgressBar progressBar;
         private System.Windows.Forms.Panel viewportPanel;
 
         protected override void Dispose(bool disposing)
@@ -28,6 +29,7 @@ namespace PropCreator
             exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             statusStrip = new System.Windows.Forms.StatusStrip();
             statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            progressBar = new System.Windows.Forms.ToolStripProgressBar();
             viewportPanel = new System.Windows.Forms.Panel();
 
             menuStrip.SuspendLayout();
@@ -60,7 +62,7 @@ namespace PropCreator
             exitMenuItem.Click += new System.EventHandler(ExitMenuItem_Click);
 
             // statusStrip
-            statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { statusLabel });
+            statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { statusLabel, progressBar });
             statusStrip.Location = new System.Drawing.Point(0, 539);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new System.Drawing.Size(1024, 22);
@@ -69,8 +71,14 @@ namespace PropCreator
 
             // statusLabel
             statusLabel.Name = "statusLabel";
-            statusLabel.Size = new System.Drawing.Size(1009, 17);
             statusLabel.Text = "Ready";
+            statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+
+            // progressBar
+            progressBar.Name = "progressBar";
+            progressBar.Size = new System.Drawing.Size(150, 16);
+            progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            progressBar.Visible = false;
 
             // viewportPanel
             viewportPanel.Dock = System.Windows.Forms.DockStyle.Fill;
